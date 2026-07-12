@@ -1,0 +1,54 @@
+# Virtual Environment
+menv/
+venv/
+env/
+textcraft_env/
+quillify_env/
+*_env/
+*.env
+
+# API Keys & Secrets
+.env
+.env.local
+.env.production
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Jupyter Notebooks Checkpoints
+.ipynb_checkpoints/
+
+# VS Code Settings
+.vscode/
+*.code-workspace
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Model Cache (HuggingFace downloads)
+*.bin
+*.pt
+*.pth
+models/
+cache/
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
