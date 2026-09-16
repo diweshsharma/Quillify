@@ -26,17 +26,23 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 from groq import Groq
 client = Groq(api_key=GROQ_API_KEY)
 
-# Load spacy model, downloading if not present
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    import spacy.cli
-    spacy.cli.download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+import gc
 
 def get_synonym_suggestions(text):
     """Get synonym suggestions for adjectives and verbs using spaCy and WordNet."""
+    # Load spacy model locally to save memory
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except OSError:
+        from spacy.cli import download
+        download("en_core_web_sm")
+        nlp = spacy.load("en_core_web_sm")
+        
     doc = nlp(text)
+    
+    # Free memory immediately
+    del nlp
+    gc.collect()
     synonyms_dict = {}
     
     for token in doc:

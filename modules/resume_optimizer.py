@@ -15,17 +15,23 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 from groq import Groq
 client = Groq(api_key=GROQ_API_KEY)
 
-# Load spaCy model
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    import spacy.cli
-    spacy.cli.download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+import gc
 
 def extract_resume_entities(text):
     """Extracts entities and skill-like tokens using spaCy."""
+    # Load spaCy model locally to save memory
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except OSError:
+        from spacy.cli import download
+        download("en_core_web_sm")
+        nlp = spacy.load("en_core_web_sm")
+        
     doc = nlp(text)
+    
+    # Free memory immediately
+    del nlp
+    gc.collect()
     entities = {
         "organizations": [],
         "locations": [],

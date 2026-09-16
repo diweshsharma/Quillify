@@ -17,13 +17,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 # Initialize Groq client
 client = Groq(api_key=GROQ_API_KEY)
 
-# Initialize HuggingFace pipeline once
-tone_classifier = pipeline(
-    'text-classification', 
-    model='j-hartmann/emotion-english-distilroberta-base', 
-    top_k=3,
-    truncation=True
-)
+import gc
 
 EMOTION_TO_TONE_MAP = {
     "joy": "Friendly/Casual",
@@ -37,11 +31,23 @@ EMOTION_TO_TONE_MAP = {
 
 ALLOWED_TARGET_TONES = ["Professional", "Casual", "Formal", "Friendly", "Persuasive", "Academic"]
 
-
 def detect_tone(text):
     """Detect tone using HuggingFace emotion classifier."""
     try:
+        # Initialize HuggingFace pipeline locally to save memory
+        tone_classifier = pipeline(
+            'text-classification', 
+            model='j-hartmann/emotion-english-distilroberta-base', 
+            top_k=3,
+            truncation=True
+        )
+        
         results = tone_classifier(text)
+        
+        # Free memory immediately
+        del tone_classifier
+        gc.collect()
+        
         if not results:
             return None
         

@@ -55,7 +55,7 @@ client = Groq(api_key=GROQ_API_KEY)
 
 
 
-kw_model = KeyBERT()
+import gc
 
 def clean_text(text):
     
@@ -79,6 +79,9 @@ def clean_text(text):
 def extract_keywords(text, blog_topic, top_n=10):
     clean, tokens = clean_text(text)
 
+    # Initialize locally to save memory
+    kw_model = KeyBERT()
+    
     keybert_keywords = kw_model.extract_keywords(
         clean,
         keyphrase_ngram_range=(1, 2),
@@ -87,6 +90,10 @@ def extract_keywords(text, blog_topic, top_n=10):
         use_mmr=True,
         diversity=0.5
     )
+
+    # Free memory immediately
+    del kw_model
+    gc.collect()
 
     keybert_words = [kw[0] for kw in keybert_keywords]
     keybert_scores = {kw[0]: round(kw[1], 3) for kw in keybert_keywords}
