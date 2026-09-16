@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quillify — AI Powered Writing Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="brand-icon">🪶</span>
+            <span class="brand-text">Quillify</span>
+        </div>
+        <div class="nav-links">
+            <a href="#hero" class="nav-link active">Home</a>
+            <a href="#tools" class="nav-link">Tools</a>
+            <a href="#about" class="nav-link">About</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ AI-Powered Writing Assistant</div>
+            <h1 class="hero-title">
+                Write <span class="gradient-text">Smarter</span>,
+                Rank <span class="gradient-text">Higher</span>,
+                Communicate <span class="gradient-text">Better</span>
+            </h1>
+            <p class="hero-subtitle">
+                Your intelligent writing partner for SEO optimization, paragraph enhancement,
+                resume optimization, and tone rewriting — all powered by AI.
+            </p>
+            <a href="#tools" class="hero-cta">
+                Get Started
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">AI Tools</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Free Usage</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">~3s</span>
+                <span class="stat-label">Avg Response</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section" id="tools">
+        <h2 class="section-title">AI Writing Tools</h2>
+        <p class="section-subtitle">Choose a tool to enhance your writing</p>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="seo" onclick="switchTab('seo')">
+                <span class="tab-icon">🔍</span>
+                <span class="tab-label">SEO Analyzer</span>
+            </button>
+            <button class="tab-btn" data-tab="enhance" onclick="switchTab('enhance')">
+                <span class="tab-icon">✨</span>
+                <span class="tab-label">Paragraph Enhancer</span>
+            </button>
+            <button class="tab-btn" data-tab="resume" onclick="switchTab('resume')">
+                <span class="tab-icon">📄</span>
+                <span class="tab-label">Resume Optimizer</span>
+            </button>
+            <button class="tab-btn" data-tab="tone" onclick="switchTab('tone')">
+                <span class="tab-icon">🎭</span>
+                <span class="tab-label">Tone Rewriter</span>
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-wrapper">
+
+            <!-- SEO Analyzer Tab -->
+            <div class="tab-content active" id="tab-seo">
+                <div class="tool-layout">
+                    <div class="input-panel">
+                        <div class="panel-header">
+                            <h3>Blog SEO Analyzer</h3>
+                            <p>Analyze your blog content and get SEO improvement suggestions</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Blog Topic / Target Keyword</label>
+                            <input type="text" id="seo-topic" placeholder="e.g. Machine Learning for Beginners" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label>Blog Content <span class="word-count" id="seo-word-count">0 words</span></label>
+                            <textarea id="seo-text" placeholder="Paste your blog content here (minimum 50 words)..." class="textarea-field" rows="10" oninput="updateWordCount('seo-text', 'seo-word-count')"></textarea>
+                        </div>
+                        <button class="submit-btn" onclick="analyzeSEO()">
+                            <span class="btn-text">Analyze SEO</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span> Analyzing...
+                            </span>
+                        </button>
+                    </div>
+                    <div class="output-panel" id="seo-output">
+                        <div class="empty-state">
+                            <span class="empty-icon">🔍</span>
+                            <p>Your SEO analysis results will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paragraph Enhancer Tab -->
+            <div class="tab-content" id="tab-enhance">
+                <div class="tool-layout">
+                    <div class="input-panel">
+                        <div class="panel-header">
+                            <h3>Paragraph Enhancer</h3>
+                            <p>Improve your writing with AI-powered synonym suggestions and rewrites</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Topic of Paragraph</label>
+                            <input type="text" id="enhance-topic" placeholder="e.g. Climate Change Effects" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label>Paragraph <span class="word-count" id="enhance-word-count">0 words</span></label>
+                            <textarea id="enhance-text" placeholder="Paste your paragraph here (minimum 10 words)..." class="textarea-field" rows="8" oninput="updateWordCount('enhance-text', 'enhance-word-count')"></textarea>
+                        </div>
+                        <button class="submit-btn" onclick="enhanceParagraph()">
+                            <span class="btn-text">Enhance Paragraph</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span> Enhancing...
+                            </span>
+                        </button>
+                    </div>
+                    <div class="output-panel" id="enhance-output">
+                        <div class="empty-state">
+                            <span class="empty-icon">✨</span>
+                            <p>Your enhanced paragraph will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Optimizer Tab -->
+            <div class="tab-content" id="tab-resume">
+                <div class="tool-layout">
+                    <div class="input-panel">
+                        <div class="panel-header">
+                            <h3>Resume Optimizer</h3>
+                            <p>Optimize your resume for ATS systems and target job roles</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Job Role</label>
+                            <input type="text" id="resume-role" placeholder="e.g. Machine Learning Engineer" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label>Resume Content <span class="word-count" id="resume-word-count">0 words</span></label>
+                            <textarea id="resume-text" placeholder="Paste your resume text here (minimum 30 words)..." class="textarea-field" rows="10" oninput="updateWordCount('resume-text', 'resume-word-count')"></textarea>
+                        </div>
+                        <button class="submit-btn" onclick="optimizeResume()">
+                            <span class="btn-text">Optimize Resume</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span> Optimizing...
+                            </span>
+                        </button>
+                    </div>
+                    <div class="output-panel" id="resume-output">
+                        <div class="empty-state">
+                            <span class="empty-icon">📄</span>
+                            <p>Your resume optimization results will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tone Rewriter Tab -->
+            <div class="tab-content" id="tab-tone">
+                <div class="tool-layout">
+                    <div class="input-panel">
+                        <div class="panel-header">
+                            <h3>Tone Rewriter</h3>
+                            <p>Detect the current tone and rewrite in your desired style</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Desired Tone</label>
+                            <select id="tone-select" class="input-field select-field">
+                                <option value="Professional">Professional</option>
+                                <option value="Casual">Casual</option>
+                                <option value="Formal">Formal</option>
+                                <option value="Friendly">Friendly</option>
+                                <option value="Persuasive">Persuasive</option>
+                                <option value="Academic">Academic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Text to Rewrite <span class="word-count" id="tone-word-count">0 words</span></label>
+                            <textarea id="tone-text" placeholder="Paste your text here (minimum 5 words)..." class="textarea-field" rows="8" oninput="updateWordCount('tone-text', 'tone-word-count')"></textarea>
+                        </div>
+                        <button class="submit-btn" onclick="rewriteTone()">
+                            <span class="btn-text">Rewrite Tone</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span> Rewriting...
+                            </span>
+                        </button>
+                    </div>
+                    <div class="output-panel" id="tone-output">
+                        <div class="empty-state">
+                            <span class="empty-icon">🎭</span>
+                            <p>Your rewritten text will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-grid">
+            <div class="about-card">
+                <span class="about-icon">🧠</span>
+                <h3>BERT & TF-IDF</h3>
+                <p>Semantic keyword extraction using BERT embeddings combined with statistical TF-IDF analysis</p>
+            </div>
+            <div class="about-card">
+                <span class="about-icon">🦙</span>
+                <h3>LLaMA 3.3 70B</h3>
+                <p>Powered by Meta's open-source LLaMA model via Groq's lightning-fast inference API</p>
+            </div>
+            <div class="about-card">
+                <span class="about-icon">📊</span>
+                <h3>spaCy & NLTK</h3>
+                <p>Industrial-strength NLP for POS tagging, NER, tokenization, and synonym discovery</p>
+            </div>
+            <div class="about-card">
+                <span class="about-icon">🤗</span>
+                <h3>HuggingFace</h3>
+                <p>Pretrained transformer models for accurate tone and emotion detection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🪶 Quillify — Write Smarter, Rank Higher, Communicate Better</p>
+        <p class="footer-sub">© 2025 Diwesh Sharma. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

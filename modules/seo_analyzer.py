@@ -172,28 +172,30 @@ def analyze_seo_with_groq(blog_text, blog_topic, existing_keywords):
     CONTENT GAPS:
     """
 
-    
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "system",
-                "content": "You are an expert SEO analyst and content strategist with 10 years of experience."
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
-    return response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert SEO analyst and content strategist with 10 years of experience."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error during SEO analysis: {str(e)}"
 
 
 
 
 def analyze_blog(blog_text, blog_topic):
     
-    print(f"🔍 Analyzing blog for topic: {blog_topic}")
+    print(f"[SEO] Analyzing blog for topic: {blog_topic}")
 
     
     if not blog_text or not blog_topic:
@@ -208,11 +210,11 @@ def analyze_blog(blog_text, blog_topic):
             "status": "failed"
         }
 
-    print("📊 Extracting keywords...")
+    print("[SEO] Extracting keywords...")
     keyword_results = extract_keywords(blog_text, blog_topic)
 
     
-    print("🤖 Analyzing with Groq AI...")
+    print("[SEO] Analyzing with Groq AI...")
     gemini_analysis = analyze_seo_with_groq(
         blog_text,
         blog_topic,
@@ -231,8 +233,8 @@ def analyze_blog(blog_text, blog_topic):
             "combined_keywords": keyword_results["combined_keywords"],
             "total_keywords_found": len(keyword_results["combined_keywords"])
         },
-        "gemini_seo_analysis": gemini_analysis
+        "groq_seo_analysis": gemini_analysis
     }
 
-    print("✅ Analysis Complete!")
+    print("[SEO] Analysis Complete!")
     return final_output
